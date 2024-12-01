@@ -50,9 +50,21 @@ internal class Logger
         Debug.WriteLine(StripColorCodes(msg));
     }
 
+    public static void LogErrorLine(string msg)
+    {
+        Console.Error.WriteLine(InsertColorCodes(msg));
+        Debug.WriteLine(StripColorCodes(msg));
+    }
+
     public static void Log(string msg)
     {
         Console.Write(InsertColorCodes(msg));
+        Debug.Write(StripColorCodes(msg));
+    }
+
+    public static void LogError(string msg)
+    {
+        Console.Error.Write(InsertColorCodes(msg));
         Debug.Write(StripColorCodes(msg));
     }
 

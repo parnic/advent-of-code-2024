@@ -24,16 +24,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="inputs\01.txt" />
-	  <None Remove="inputs\01a.txt" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Include="inputs\01.txt" />
-	  <EmbeddedResource Include="inputs\01a.txt" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <PackageReference Include="Microsoft.Z3" Version="4.12.2" />
 	</ItemGroup>
 

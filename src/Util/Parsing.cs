@@ -44,7 +44,7 @@ public static class Parsing
             }
         }
 
-        var filename = $"inputs/{inputName}.txt";
+        var filename = Path.Combine("inputs", $"{inputName}.txt");
         if (File.Exists(filename))
         {
             if (Directory.Exists(Path.GetDirectoryName(filename)!) && File.Exists(filename))
@@ -63,7 +63,14 @@ public static class Parsing
         // accessible at runtime. instead, we assume Logger is also part of the "default namespace"
         var resourceName = $"{typeof(Logger).Namespace}.inputs.{inputName}.txt";
         using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
-        using StreamReader reader = new(stream!);
+        if (stream == null)
+        {
+            Logger.LogErrorLine($"Unable to find file or resource matching requested input {inputName}.");
+            Logger.LogErrorLine("Do you have a .env file with an AOC_SESSION=... line containing your session cookie?");
+            return;
+        }
+
+        using StreamReader reader = new(stream);
         while (reader.ReadLine() is { } readLine)
         {
             processor(readLine);
