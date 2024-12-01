@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net9.0</TargetFramework>
+		<RootNamespace>aoc2024</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <WarningLevel>9999</WarningLevel>
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <NoWarn>1701;1702;8981</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <WarningLevel>9999</WarningLevel>
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <NoWarn>1701;1702;8981</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="inputs\01.txt" />
+	  <None Remove="inputs\01a.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="inputs\01.txt" />
+	  <EmbeddedResource Include="inputs\01a.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Z3" Version="4.12.2" />
+	</ItemGroup>
+
+</Project>
