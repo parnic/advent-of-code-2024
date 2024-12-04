@@ -14,6 +14,7 @@ public readonly struct ivec2 : IEquatable<ivec2>, IComparable<ivec2>, IComparabl
     public static readonly ivec2 DOWN = new ivec2(0, 1);
     public static readonly ivec2[] FOURWAY = {RIGHT, LEFT, UP, DOWN};
     public static readonly ivec2[] EIGHTWAY = {UP, UP + RIGHT, RIGHT, RIGHT + DOWN, DOWN, DOWN + LEFT, LEFT, LEFT + UP};
+    public static readonly ivec2[] DIAGONALS = {UP + RIGHT, DOWN + RIGHT, UP + LEFT, DOWN + LEFT};
 
     public ivec2(long xv, long yv)
     {
@@ -89,6 +90,28 @@ public readonly struct ivec2 : IEquatable<ivec2>, IComparable<ivec2>, IComparabl
     public IEnumerable<ivec2> GetBoundedNeighbors(int minX, int minY, int maxX, int maxY)
     {
         foreach (var dir in EIGHTWAY)
+        {
+            var pt = this + dir;
+            if (!pt.IsWithinRange(minX, minY, maxX, maxY))
+            {
+                continue;
+            }
+
+            yield return pt;
+        }
+    }
+
+    public IEnumerable<ivec2> GetDiagonalNeighbors(ivec2 p)
+    {
+        foreach (var dir in DIAGONALS)
+        {
+            yield return this + dir;
+        }
+    }
+
+    public IEnumerable<ivec2> GetBoundedDiagonalNeighbors(int minX, int minY, int maxX, int maxY)
+    {
+        foreach (var dir in DIAGONALS)
         {
             var pt = this + dir;
             if (!pt.IsWithinRange(minX, minY, maxX, maxY))
