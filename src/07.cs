@@ -1,4 +1,6 @@
-﻿namespace aoc2024;
+﻿using aoc2024.Util;
+
+namespace aoc2024;
 
 internal class Day07 : Day
 {
@@ -14,42 +16,45 @@ internal class Day07 : Day
         }
     }
 
-    private static bool CanSolveAddMult((long result, List<long> inputs) eq)
+    private static bool CanSolveAddMult(long target, long current, List<long> inputs, int idx)
     {
-        if (eq.inputs.Count > 2)
+        if (idx == inputs.Count)
         {
-            var added = eq.inputs[0] + eq.inputs[1];
-            var multd = eq.inputs[0] * eq.inputs[1];
-            return CanSolveAddMult(eq with { inputs = [added, .. eq.inputs.Skip(2)] }) || CanSolveAddMult(eq with { inputs = [multd, .. eq.inputs.Skip(2)] });
+            return current == target;
         }
 
-        return eq.inputs[0] + eq.inputs[1] == eq.result || eq.inputs[0] * eq.inputs[1] == eq.result;
+        var next = inputs[idx];
+        var added = current + next;
+        var multd = current * next;
+        return CanSolveAddMult(target, added, inputs, idx + 1) ||
+               CanSolveAddMult(target, multd, inputs, idx + 1);
     }
 
     internal override string Part1()
     {
-        long total = eqs.Where(CanSolveAddMult).Sum(eq => eq.result);
+        long total = eqs.Where(eq => CanSolveAddMult(eq.result, eq.inputs[0], eq.inputs, 1)).Sum(eq => eq.result);
         return $"Add | Mult calibration result: <+white>{total}";
     }
 
-    private static bool CanSolveAddMultConcat((long result, List<long> inputs) eq)
+    private static bool CanSolveAddMultConcat(long target, long current, List<long> inputs, int idx)
     {
-        if (eq.inputs.Count > 2)
+        if (idx == inputs.Count)
         {
-            var added = eq.inputs[0] + eq.inputs[1];
-            var multd = eq.inputs[0] * eq.inputs[1];
-            var cated = long.Parse($"{eq.inputs[0]}{eq.inputs[1]}");
-            return CanSolveAddMultConcat(eq with { inputs = [added, .. eq.inputs.Skip(2)] })
-                   || CanSolveAddMultConcat(eq with { inputs = [multd, .. eq.inputs.Skip(2)] })
-                   || CanSolveAddMultConcat(eq with { inputs = [cated, .. eq.inputs.Skip(2)] });
+            return current == target;
         }
 
-        return eq.inputs[0] + eq.inputs[1] == eq.result || eq.inputs[0] * eq.inputs[1] == eq.result || long.Parse($"{eq.inputs[0]}{eq.inputs[1]}") == eq.result;
+        var next = inputs[idx];
+        var added = current + next;
+        var multd = current * next;
+        var cated = NumConcat.Longs(current, next);
+        return CanSolveAddMultConcat(target, added, inputs, idx + 1) ||
+               CanSolveAddMultConcat(target, multd, inputs, idx + 1) ||
+               CanSolveAddMultConcat(target, cated, inputs, idx + 1);
     }
 
     internal override string Part2()
     {
-        long total = eqs.Where(CanSolveAddMultConcat).Sum(eq => eq.result);
+        long total = eqs.Where(eq => CanSolveAddMultConcat(eq.result, eq.inputs[0], eq.inputs, 1)).Sum(eq => eq.result);
         return $"Add | Mult | Concat calibration result: <+white>{total}";
     }
 }
