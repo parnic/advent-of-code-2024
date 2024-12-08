@@ -74,7 +74,7 @@ public readonly struct ivec2 : IEquatable<ivec2>, IComparable<ivec2>, IComparabl
         }
     }
 
-    public IEnumerable<ivec2> GetBoundedOrthogonalNeighbors(int minX, int minY, int maxX, int maxY)
+    public IEnumerable<ivec2> GetBoundedOrthogonalNeighbors(long minX, long minY, long maxX, long maxY)
     {
         foreach (var dir in FOURWAY)
         {
@@ -96,7 +96,7 @@ public readonly struct ivec2 : IEquatable<ivec2>, IComparable<ivec2>, IComparabl
         }
     }
 
-    public IEnumerable<ivec2> GetBoundedNeighbors(int minX, int minY, int maxX, int maxY)
+    public IEnumerable<ivec2> GetBoundedNeighbors(long minX, long minY, long maxX, long maxY)
     {
         foreach (var dir in EIGHTWAY)
         {
@@ -118,7 +118,7 @@ public readonly struct ivec2 : IEquatable<ivec2>, IComparable<ivec2>, IComparabl
         }
     }
 
-    public IEnumerable<ivec2> GetBoundedDiagonalNeighbors(int minX, int minY, int maxX, int maxY)
+    public IEnumerable<ivec2> GetBoundedDiagonalNeighbors(long minX, long minY, long maxX, long maxY)
     {
         foreach (var dir in DIAGONALS)
         {
@@ -149,17 +149,11 @@ public readonly struct ivec2 : IEquatable<ivec2>, IComparable<ivec2>, IComparabl
     public static bool operator >(ivec2 a, ivec2 b) => (a.x > b.x) && (a.y > b.y);
     public static bool operator >=(ivec2 a, ivec2 b) => (a.x >= b.x) && (a.y >= b.y);
 
-    public bool IsWithinRange(int minX, int minY, int maxX, int maxY) => x >= minX && y >= minY && x <= maxX && y <= maxY;
+    public bool IsWithinRange(long minX, long minY, long maxX, long maxY) => x >= minX && y >= minY && x <= maxX && y <= maxY;
 
-    public bool Equals(ivec2 other)
-    {
-        return x == other.x && y == other.y;
-    }
+    public bool Equals(ivec2 other) => x == other.x && y == other.y;
 
-    public override bool Equals(object? obj)
-    {
-        return obj is ivec2 other && Equals(other);
-    }
+    public override bool Equals(object? obj) => obj is ivec2 other && Equals(other);
 
     public int CompareTo(ivec2 other)
     {
@@ -178,7 +172,11 @@ public readonly struct ivec2 : IEquatable<ivec2>, IComparable<ivec2>, IComparabl
 
     public int CompareTo(object? obj)
     {
-        if (ReferenceEquals(null, obj)) return 1;
+        if (obj is null)
+        {
+            return 1;
+        }
+
         return obj is ivec2 other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(ivec2)}");
     }
 

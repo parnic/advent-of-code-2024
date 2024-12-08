@@ -115,12 +115,11 @@ else
 
 foreach (var desiredDay in desiredDays)
 {
-    Day? day = getDayInstanceFromArg(desiredDay);
+    using Day? day = getDayInstanceFromArg(desiredDay);
     if (day == null)
     {
         Logger.LogLine($"Unknown day <cyan>{desiredDay}<r>");
     }
 
     day?.Go(runPart1 ?? true, runPart2 ?? true);
-    day?.Dispose();
 }
