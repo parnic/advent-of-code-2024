@@ -86,7 +86,7 @@ internal class Day09 : Day
             }
         }
 
-        return $"<+white>{checksum}";
+        return $"Compacted blocks checksum: <+white>{checksum}";
     }
 
     internal override string Part2()
@@ -117,6 +117,6 @@ internal class Day09 : Day
             }
         }
 
-        return $"<+white>{checksum}";
+        return $"Whole-file defrag checksum: <+white>{checksum}";
     }
 }

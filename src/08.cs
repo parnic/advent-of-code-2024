@@ -71,18 +71,14 @@ internal class Day08 : Day
                 foreach (var other in others)
                 {
                     var between = loc - other;
-                    var a1 = loc + between;
-                    var a2 = other - between;
-                    while (a1.IsWithinRange(0, 0, dimensions.x - 1, dimensions.y - 1))
+                    for (var a1 = loc + between; a1.IsWithinRange(0, 0, dimensions.x - 1, dimensions.y - 1); a1 += between)
                     {
                         antinodes.Add(a1);
-                        a1 += between;
                     }
 
-                    while (a2.IsWithinRange(0, 0, dimensions.x - 1, dimensions.y - 1))
+                    for (var a2 = other - between; a2.IsWithinRange(0, 0, dimensions.x - 1, dimensions.y - 1); a2 -= between)
                     {
                         antinodes.Add(a2);
-                        a2 -= between;
                     }
                 }
             }
