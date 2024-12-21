@@ -38,6 +38,8 @@ public readonly struct ivec2 : IEquatable<ivec2>, IComparable<ivec2>, IComparabl
     public long ManhattanDistance => Abs(this).Sum;
     public long ManhattanDistanceTo(ivec2 other) => System.Math.Abs(x - other.x) + System.Math.Abs(y - other.y);
 
+    public ivec2 ManhattanVectorTo(ivec2 other) => new(other.x - x, other.y - y);
+
     public static ivec2 DirFromChar(char ch) => ch switch
     {
         '^' => UP,
@@ -46,6 +48,31 @@ public readonly struct ivec2 : IEquatable<ivec2>, IComparable<ivec2>, IComparabl
         'v' => DOWN,
         _ => throw new FormatException($"Invalid direction {ch}"),
     };
+
+    public char CharFromDir()
+    {
+        if (this == UP)
+        {
+            return '^';
+        }
+
+        if (this == RIGHT)
+        {
+            return '>';
+        }
+
+        if (this == LEFT)
+        {
+            return '<';
+        }
+
+        if (this == DOWN)
+        {
+            return 'v';
+        }
+
+        throw new FormatException($"Invalid direction vector {this}");
+    }
 
     public ivec2 GetBestDirectionTo(ivec2 p)
     {
